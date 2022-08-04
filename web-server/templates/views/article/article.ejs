@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="../boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../css/common.css" rel="stylesheet">
+
+    <link href="./fontawesome/css/all.css" rel="stylesheet">
+    <script src="./boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./ckeditor/build/ckeditor.js"></script>
+</head>
+
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <div class="border-container h-100 w-100">
+                                <div class="border-container-header container-fluid d-flex">
+                                    <div class="p-2 container-fluid d-flex">
+                                        <span class="border-container-header-word me-3">All <%=pageTitle%></span>
+                                        <!-- <form action="/article/article_add" method="GET">
+                                            <button type="submit" class="btn btn-primary-outline">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </form> -->
+                                        <a role="button" href="/article/add_article">
+                                            <i class="fas fa-plus nav-link-icon text-dark align-middle "></i>
+                                        </a>
+                                    </div>
+                                    <div class="ms-auto p-2 d-flex">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas ms-3 fa-filter fs-6 nav-link-icon"></i>
+                                        </div>
+                                        <a href="#" onclick="return false" class="nav-link d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-3 fs-6 nav-link-word" data-bs-toggle="modal"
+                                                    data-bs-target="#filterModal">Filter</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="padding-left: 2%;"><button
+                                                        class="btn th-sort-button"><span>Title</span>
+                                                        <!-- <div class="th-sort-div">
+                                                            <i class="fas fa-sort-up th-sort-div-icon "></i>
+                                                            <i class="fas fa-sort-down th-sort-div-icon "></i>
+                                                        </div> -->
+                                                    </button>
+                                                </th>
+                                                <th scope="col">Create Date</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% articles.forEach(function (article,i) { %>
+                                                <tr style="height: 75px;">
+                                                    <td class="align-middle" style="padding-left:2% ;width: 20%;">
+                                                        <%=article.title%>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 12%;">
+                                                        <div>
+                                                            <div>
+                                                                <%= article.create_date %>
+                                                            </div>
+                                                            <div
+                                                                style="color: #C5C7CD; font-size: 14px; margin-top: 5px;">
+                                                                <%= article.create_time %>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 10%;">
+                                                        <% switch (article.status) { case 0 : %>
+                                                            <div class="status-button-shape"
+                                                                style="background: #F12B2C;">
+                                                                Suspend
+                                                            </div>
+                                                            <% break; case 1 : %>
+                                                                <div class="status-button-shape"
+                                                                    style="background: #29CC97;">
+                                                                    Available
+                                                                </div>
+                                                                <% break; case 2 : %>
+                                                                    <div class="status-button-shape"
+                                                                        style="background: #FEC400;">
+                                                                        Pending
+                                                                    </div>
+                                                                    <% break; } %>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 8%;">
+                                                        <div class="dropdown">
+                                                            <a role="button" id="dropdownMenuLink"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                <i class="fas ms-3 fa-ellipsis-v fs-6 nav-link-icon"
+                                                                    onclick="showDropDown(`<%=article.id%>`)"></i>
+                                                            </a>
+                                                            <ul id="dropdownMenu<%=article.id%>" class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <form action="/article/edit_article" method="GET">
+                                                                    <li><a type="submit" class="dropdown-item"
+                                                                            href="/article/edit_article?id=<%=article.id%>">Update</a>
+                                                                    </li>
+                                                                </form>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Suspend</a>
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-bottom">
+                                        <div class="page-bottom-infomration">
+                                            <span> showing item <%=minPage%>-<%=maxPage%> of <%=totalNumber%></span>
+                                        </div>
+                                        <div class="page-bottom-selector">
+                                            <form action="/article" method="POST" class="form-inline">
+                                                <div class="input-group">
+                                                    <button id="previous-page-button" class="btn shadow-none"
+                                                        name="changePage[arrow]" type="submit" value="-1">
+                                                        <span class="fas fa-chevron-left"></span>
+                                                    </button>
+                                                    <!-- <%var start=5 <=totalNumber/25 - currentUserPage ? currentUserPage-1
+                                                        : totalNumber/25 - 5; %>
+                                                        <%var end=start + 5 ; %> -->
+                                                    <% for(var i=0 ; i < totalNumber/25 ; i++) { %>
+                                                        <div style="margin-left: 5px; margin-right: 5px;">
+                                                            <button class="btn btn-outline-secondary"
+                                                                name="changePage[button]" type="submit"
+                                                                value="<%= i+1 %>">
+                                                                <%= i + 1%>
+                                                            </button>
+                                                        </div>
+                                                        <% } %>
+                                                            <div class="page-bottom-selector-arrow-button">
+                                                                <button id="next-page-button" class="btn shadow-none"
+                                                                    name="changePage[arrow]" type="submit" value="1">
+                                                                    <span class="fas fa-chevron-right"></span>
+                                                                </button>
+                                                            </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+        </div>
+        <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-sm-down">
+                <form action="/article" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Selection</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <p class="h5">Filter Type</p>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div class="me-3" style="width: 20%;">
+                                        <span>Status Type:</span>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="article[statusTypes]"
+                                                value="1" <%=statusTypeChecks[1] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Available
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="article[statusTypes]"
+                                                value="2" <%=statusTypeChecks[2] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Suspend
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="article[statusTypes]"
+                                                value="0" <%=statusTypeChecks[0] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Pending
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <p class="h5">Sorting Type</p>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="article[sortingType]" id="noneRadio"
+                                    value="0" <%=sortType=='0' ? "checked" : "" %>>
+                                <label class="form-check-label" for="noneRadio">
+                                    None
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="article[sortingType]" id="nameRadio"
+                                    value="1" <%=sortType=='1' ? "checked" : "" %>>
+                                <label class="form-check-label" for="nameRadio">
+                                    Title
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="article[sortingType]" id="cDateRadio"
+                                    value="2" <%=sortType=='2' ? "checked" : "" %>>
+                                <label class="form-check-label" for="cDateRadio">
+                                    Create Date
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <p class="h5">Sorting Order</p>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="article[orderBy]" id="ascRadio"
+                                    value="ASC" <%=orderType=='ASC' ? "checked" : "" %>>
+                                <label class="form-check-label" for="ascRadio">
+                                    Ascending Order
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="article[orderBy]" id="descRadio"
+                                    value="DESC" <%=orderType=='DESC' ? "checked" : "" %>>
+                                <label class="form-check-label" for="descRadio">
+                                    Descending Order
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</main>

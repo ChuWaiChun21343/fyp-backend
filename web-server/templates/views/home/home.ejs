@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="./boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="./css/common.css" rel="stylesheet">
+
+    <link href="./fontawesome/css/all.css" rel="stylesheet">
+    <script src="./boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet"> -->
+    <link href="./google-font/Mulish/static/Mulish-Regular.ttf" rel="stylesheet">
+</head>
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <div class="border-container h-100 w-100">
+                                <div class="border-container-header container-fluid d-flex">
+                                    <div class="p-2 container-fluid d-flex">
+                                        <span class="border-container-header-word me-3 ">All <%=pageTitle%></span>
+                                        <% if(cookies.type==1 || cookies.type==null){ %>
+                                            <a role="button" href="/home/add_admin">
+                                                <i class="fas fa-plus nav-link-icon text-dark align-middle "></i>
+                                            </a>
+                                            <% } %>
+                                    </div>
+                                    <div class="ms-auto p-2 d-flex">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas ms-3 fa-filter fs-6 nav-link-icon"></i>
+                                        </div>
+                                        <a href="#" onclick="return false" class="nav-link d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-3 fs-6 nav-link-word" data-bs-toggle="modal"
+                                                    data-bs-target="#filterModal">Filter</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="padding-left: 2%;">Name</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Create Date</th>
+                                                <th scope="col">Status</th>
+                                                <% if(cookies.type==1 || cookies.type==null){ %>
+                                                    <th scope="col"></th>
+                                                    <% } %>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% admins.forEach(function (admin,i) { %>
+                                                <tr style="height: 80px;">
+                                                    <td class="align-middle" style="padding-left:2% ;width: 20%;">
+                                                        <%=admin.username%>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 15%;">
+                                                        <%= admin.type %>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 25%;">
+                                                        <%= admin.email %>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 12%;">
+                                                        <div>
+                                                            <div>
+                                                                <%= admin.create_date %>
+                                                            </div>
+                                                            <div
+                                                                style="color: #C5C7CD; font-size: 14px; margin-top: 5px;">
+                                                                <%= admin.create_time %>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 10%;">
+                                                        <% switch (admin.status) { case 2 : %>
+                                                            <div class="status-button-shape"
+                                                                style="background: #F12B2C;">
+                                                                Suspend
+                                                            </div>
+                                                            <% break; case 1 : %>
+                                                                <div class="status-button-shape"
+                                                                    style="background: #29CC97;">
+                                                                    Available
+                                                                </div>
+                                                                <% break; case 0 : %>
+                                                                    <div class="status-button-shape"
+                                                                        style="background: #FEC400;">
+                                                                        Pending
+                                                                    </div>
+                                                                    <% break; } %>
+                                                    </td>
+                                                    <% if(cookies.type==1 || cookies.type==null){ %>
+                                                        <td class="align-middle" style="width: 8%;">
+                                                            <div>
+                                                                <a role="button" id="dropdownMenuLink"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                    <i class="fas ms-3 fa-ellipsis-v fs-6 nav-link-icon"
+                                                                        onclick="showDropDown(`<%=admin.id%>`)"></i>
+                                                                </a>
+                                                                <ul id="dropdownMenu<%=admin.id%>" class="dropdown-menu"
+                                                                    aria-labelledby="dropdownMenuLink">
+                                                                    <form action="/home/edit_admin" method="GET">
+                                                                        <li><a type="submit" class="dropdown-item"
+                                                                                href="/home/edit_admin?id=<%=admin.id%>">Update</a>
+                                                                        </li>
+                                                                    </form>
+                                                                    <!-- <li><a class="dropdown-item" href="#">Delete</a>
+                                                                    </li>
+                                                                    <li><a class="dropdown-item" href="#">Suspend</a>
+                                                                    </li> -->
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        <% }%>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                </div>
+        </div>
+        <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-sm-down">
+                <form action="/home" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Selection</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <p class="h5">Filter Type</p>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div class="me-3">
+                                        <span>Admin Type:</span>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="admin[adminTypes]"
+                                                value="1" <%=adminTypeChecks[0] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Super Admin
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="admin[adminTypes]"
+                                                value="2" <%=adminTypeChecks[1] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Admin
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid d-flex mb-4">
+                                    <div class="me-3">
+                                        <span>Status Type:</span>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="admin[statusTypes]"
+                                                value="1" <%=statusTypeChecks[1] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Available
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="admin[statusTypes]"
+                                                value="0" <%=statusTypeChecks[0] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Pending
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="checkbox" class="form-check-input" name="admin[statusTypes]"
+                                                value="2" <%=statusTypeChecks[2] ? "checked" : "" %>>
+                                            <label class="form-check-label">
+                                                Suspended
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <p class="h5">Sorting Type</p>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[sortingType]" id="noneRadio"
+                                    value="0" <%=sortType=='0' ? "checked" : "" %>>
+                                <label class="form-check-label" for="noneRadio">
+                                    None
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[sortingType]" id="nameRadio"
+                                    value="1" <%=sortType=='1' ? "checked" : "" %>>
+                                <label class="form-check-label" for="nameRadio">
+                                    Name
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[sortingType]" id="typeRadio"
+                                    value="2" <%=sortType=='2' ? "checked" : "" %>>
+                                <label class="form-check-label" for="typeRadio">
+                                    Type
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[sortingType]" id="cDateRadio"
+                                    value="3" <%=sortType=='3' ? "checked" : "" %>>
+                                <label class="form-check-label" for="cDateRadio">
+                                    Create Date
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <p class="h5">Sorting Order</p>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[orderBy]" id="ascRadio"
+                                    value="ASC" <%=orderType=='ASC' ? "checked" : "" %>>
+                                <label class="form-check-label" for="ascRadio">
+                                    Ascending Order
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="admin[orderBy]" id="descRadio"
+                                    value="DESC" <%=orderType=='DESC' ? "checked" : "" %>>
+                                <label class="form-check-label" for="descRadio">
+                                    Descending Order
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </body>
+</main>
+
+<script>
+
+    var currentPageAdminsLength = '<%-admins.length %>';
+    var adminsStringify = '<%- JSON.stringify(admins) %>'
+    var admins = JSON.parse(adminsStringify);
+    function closeCurrentShowedDropDown() {
+        let closedDropDownID = -1;
+        for (var i = 0; i < currentPageAdminsLength; i++) {
+            const adminID = admins[i].id;
+            if (document.getElementById("dropdownMenu" + adminID).classList.contains("dropdown-menu-show")) {
+                document.getElementById("dropdownMenu" + adminID).classList.remove("dropdown-menu-show");
+                closedDropDownID = adminID;
+                break;
+            }
+        }
+        return closedDropDownID;
+    }
+    function showDropDown(id) {
+        const closedDropDownID = closeCurrentShowedDropDown();
+        if (closedDropDownID != id)
+            document.getElementById("dropdownMenu" + id).classList.toggle("dropdown-menu-show");
+    }
+
+    // function showSortModal() {
+    //     $('#filterModal').modal('toggle');
+    // }
+
+    window.addEventListener("click", function (event) {
+        if (!event.target.matches('.fas.ms-3.fa-ellipsis-v.fs-6.nav-link-icon')) {
+            //close all dropDown
+            closeCurrentShowedDropDown();
+        }
+    });
+
+    var filterModal = document.getElementById('filterModal')
+
+    filterModal.addEventListener('show.bs.modal', function (event) {
+    })
+
+
+</script>
+
+</html>

@@ -1,0 +1,102 @@
+<div id="side-bar" class="side-nav">
+  <p class="text-white"></p>
+  <div class="side-nav-div-spacing"></div>
+  <ul class="nav flex-column nav-pills ">
+    <div class="nav-item d-flex  <%= path == '/home' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/home" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-home fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Home</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="nav-item d-flex <%= path == '/notification' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/notification" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-bell fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Notification</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="nav-item d-flex <%= path == '/user' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/user" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-user fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">User</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!-- <div class="nav-item d-flex <%= path == '/article' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/article" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-receipt fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Article</span>
+          </div>
+        </a>
+      </div>
+    </div> -->
+
+    <div class="nav-item d-flex <%= path == '/post' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/post" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-newspaper fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Post</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item d-flex <%= path == '/type' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/type" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-flag fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Type</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item d-flex <%= path == '/tag' ? 'active' : '' %> ">
+      <div class="nav-selector-indicator"></div>
+      <div class="container-fluid d-flex">
+        <a href="/tag" class="nav-link d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas ms-4 fa-tags fs-6 nav-link-icon"></i>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="ms-4 fs-6 nav-link-word">Tag</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+  </ul>
+</div>

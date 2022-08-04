@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="./boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="./css/common.css" rel="stylesheet">
+
+    <link href="./fontawesome/css/all.css" rel="stylesheet">
+    <script src="./boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet"> -->
+    <link href="./google-font/Mulish/static/Mulish-Regular.ttf" rel="stylesheet">
+</head>
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <div class="border-container h-100 w-100">
+                                <div class="border-container-header container-fluid d-flex">
+                                    <div class="p-2  container-fluid d-flex">
+                                        <span class="border-container-header-word me-3 ">All <%=pageTitle%></span>
+                                        <a role="button" href="/type/add_type">
+                                            <i class="fas fa-plus nav-link-icon text-dark align-middle "></i>
+                                        </a>
+                                    </div>
+                                    <!-- <div class="ms-auto p-2 d-flex">
+                                        <a href="" class="nav-link d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas ms-3 fa-sort-amount-up fs-6 nav-link-icon"></i>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-3 fs-6 nav-link-word">Sort</span>
+                                            </div>
+                                        </a>
+                                        <a href="" class="nav-link d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas ms-3 fa-filter fs-6 nav-link-icon"></i>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-3 fs-6 nav-link-word">filter</span>
+                                            </div>
+                                        </a>
+                                    </div> -->
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="padding-left: 2%;">Number</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% types.forEach(function (type,i) { %>
+                                                <tr style="height: 80px;">
+                                                    <td class="align-middle" style="padding-left:2% ;width: 20%;">
+                                                        <%=i + 1%>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 15%;">
+                                                        <%= type.name %>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 10%;">
+                                                        <% switch (type.status) { case 0 : %>
+                                                            <div class="status-button-shape"
+                                                                style="background: #F12B2C;">
+                                                                Suspend
+                                                            </div>
+                                                            <% break; case 1 : %>
+                                                                <div class="status-button-shape"
+                                                                    style="background: #29CC97;">
+                                                                    Available
+                                                                </div>
+                                                                <% break; case 2 : %>
+                                                                    <div class="status-button-shape"
+                                                                        style="background: #FEC400;">
+                                                                        Pending
+                                                                    </div>
+                                                                    <% break; } %>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 8%;">
+                                                        <div>
+                                                            <a role="button" id="dropdownMenuLink"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                <i class="fas ms-3 fa-ellipsis-v fs-6 nav-link-icon"
+                                                                    onclick="showDropDown(`<%=type.id%>`)"></i>
+                                                            </a>
+                                                            <ul id="dropdownMenu<%=type.id%>"
+                                                                class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <form action="/type/edit_type" method="GET">
+                                                                    <li><a type="submit" class="dropdown-item"
+                                                                            href="/type/edit_type?id=<%=type.id%>">Update</a>
+                                                                    </li>
+                                                                </form>
+                                                                <!-- <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Suspend</a></li> -->
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                </div>
+        </div>
+    </body>
+</main>
+
+<script>
+
+    var currentPageAdminsLength = '<%-types.length %>';
+    var notificationsStringify = '<%- JSON.stringify(types) %>'
+    var types = JSON.parse(notificationsStringify);
+    function closeCurrentShowedDropDown() {
+        let closedDropDownID = -1;
+        for (var i = 0; i < currentPageAdminsLength; i++) {
+            const notificationID = types[i].id;
+            if (document.getElementById("dropdownMenu" + notificationID).classList.contains("dropdown-menu-show")) {
+                document.getElementById("dropdownMenu" + notificationID).classList.remove("dropdown-menu-show");
+                closedDropDownID = notificationID;
+                break;
+            }
+        }
+        return closedDropDownID;
+    }
+    function showDropDown(id) {
+        const closedDropDownID = closeCurrentShowedDropDown();
+        if (closedDropDownID != id)
+            document.getElementById("dropdownMenu" + id).classList.toggle("dropdown-menu-show");
+    }
+
+    window.addEventListener("click", function (event) {
+        if (!event.target.matches('.fas.ms-3.fa-ellipsis-v.fs-6.nav-link-icon')) {
+            //close all dropDown
+            closeCurrentShowedDropDown();
+        }
+    });
+
+</script>
+
+</html>

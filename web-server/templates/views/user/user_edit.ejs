@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="../boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../css/common.css" rel="stylesheet">
+
+    <link href="../fontawesome/css/all.css" rel="stylesheet">
+    <script src="../boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/common.js"></script>
+    <link href="../google-font/Mulish/static/Mulish-Regular.ttf" rel="stylesheet">
+</head>
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <form action="/user/edit_user" method="POST"  enctype="multipart/form-data">
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Username</span>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <input type="text" id="name" class="form-control" placeholder="Enter Account"
+                                            name="user[name]" value="<%=user.name%>"
+                                            aria-describedby="validationServerUsername">
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Email</span>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <input type="email" id="email" class="form-control"
+                                            placeholder="Enter email" name="user[email]"
+                                            value="<%=user.email%>" aria-describedby="validationServerUsername">
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Status</span>
+                                    </div>
+                                    <div style="width: 85%;display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="0"
+                                                name="user[status]" <%=user.status==0 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Pending
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="1"
+                                                name="user[status]" <%=user.status==1 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Active
+                                            </label>
+                                        </div>
+                                        <div class="form-check ">
+                                            <input type="radio" id="statusRadio statusRadio" class="form-check-input"
+                                                value="2" name="user[status]" <%=user.status==2 ? "checked" : "" %> >
+                                            <label class="form-check-label" for="statusRadio">
+                                                Suspend
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Create Date</span>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <input type="text" id="create_date" class="form-control"
+                                            placeholder="Enter Account" name="user[create_date]"
+                                            value="<%=user.create_date%>" aria-describedby="validationServerUsername" disabled>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <button type="submit" class="btn-primary me-2" name="user[id]"
+                                        value="<%=user.id%>">done</button>
+                            </form>
+                            <form action="/user" method="GET">
+                                <button type="submit" class="btn-primary">back</button>
+                            </form>
+                        </div>
+
+
+                </div>
+        </div>
+        </div>
+    </body>
+</main>
+
+</html>

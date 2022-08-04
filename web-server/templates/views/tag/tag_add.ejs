@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="../boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../css/common.css" rel="stylesheet">
+
+    <link href="../fontawesome/css/all.css" rel="stylesheet">
+    <script src="../boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../ckeditor/build/ckeditor.js"></script>
+</head>
+
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <form class="needs-validation" action="/tag/add_tag" method="POST"
+                                enctype="multipart/form-data" onsubmit="checking()">
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Name</span>
+                                        <div class="mt-2">
+
+                                        </div>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <input type="text" id="title" class="form-control" placeholder="Enter Title"
+                                            name="tag[name]" value="<%=tag.name%>" required="true">
+                                            <% if (nameError) { %>
+                                                <div class="mt-2">
+                                                    <span class="error text-danger">
+                                                        <%= nameError %>
+                                                    </span>
+                                                </div>
+                                                <% } %>
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Status</span>
+                                    </div>
+                                    <div style="width: 85%;display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="0"
+                                                name="tag[status]" <%=tag.status==0 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Suspend
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="1"
+                                                name="tag[status]" <%=tag.status==1 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary"> submit</button>
+                            </form>
+
+                        </div>
+                </div>
+        </div>
+        </div>
+    </body>
+
+    <script>
+    // function checking() {
+    //     let checkboxes = document.querySelectorAll('[id=checkbox-tag]');
+    //     // let checked = false;
+    //     // console.log("hi");
+    //     // for (let i = 0; i < elements.length; i++) {
+    //     //     if (elements[i].checked) {
+    //     //         checked = true;
+    //     //     }
+    //     // }
+    //     // return checked;
+    //     let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+    //     if (!checkedOne) {
+    //         event.preventDefault();
+    //         return checkedOne;
+    //     }
+    //     return checkedOne;
+    // }
+    </script>
+</main>

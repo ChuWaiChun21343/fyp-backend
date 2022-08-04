@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="../boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../css/common.css" rel="stylesheet">
+
+    <link href="../fontawesome/css/all.css" rel="stylesheet">
+    <script src="../boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../ckeditor/build/ckeditor.js"></script>
+</head>
+
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <form class="needs-validation" action="/notification/add_notification" method="POST"
+                                enctype="multipart/form-data" onsubmit="checking()">
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Title</span>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <input type="text" id="title" class="form-control" placeholder="Enter Title"
+                                            name="notification[title]" value="<%=notification.title%>">
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Content</span>
+                                    </div>
+                                    <div style="width: 85%;">
+                                        <textarea type="form-control" id="text" class="form-control" rows="5"
+                                            placeholder="Enter Content"
+                                            name="notification[content]"><%=notification.content%></textarea>
+                                    </div>
+                                </div>
+                                <div class="container-fluid d-flex mb-4">
+                                    <div style="width: 15%; ">
+                                        <span class="align-middle">Status</span>
+                                    </div>
+                                    <div style="width: 85%;display: flex;">
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="0"
+                                                name="notification[status]" <%=notification.status==0 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Draft
+                                            </label>
+                                        </div>
+                                        <div class="form-check me-2">
+                                            <input type="radio" id="statusRadio" class="form-check-input" value="1"
+                                                name="notification[status]" <%=notification.status==1 ? "checked" : "" %>>
+                                            <label class="form-check-label" for="statusRadio">
+                                                Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary"> submit</button>
+                            </form>
+
+                        </div>
+                </div>
+        </div>
+        </div>
+    </body>
+
+    <script>
+    // function addImage() {
+    //     console.log('hi');
+    //     let newInputGroup = document.createElement('div');
+    //     newInputGroup.className = "input-group";
+    //     newInputGroup.style = "margin-top:10px";
+    //     let fileinput = document.createElement('input');
+    //     fileinput.className = "form-control";
+    //     fileinput.type = 'file';
+    //     fileinput.name = 'image';
+    //     newInputGroup.appendChild(fileinput);
+
+    //     let buttonGroup = document.createElement('div');
+    //     buttonGroup.className = "input-group-btn";
+
+    //     let addButton = document.createElement('button');
+    //     addButton.className = "btn btn-primary";
+    //     addButton.onclick = () =>
+    //         addImage();
+    //     addButton.type = "button";
+    //     addButton.innerHTML = "Add";
+
+    //     let removeButton = document.createElement('button');
+    //     removeButton.className = "btn btn-primary";
+    //     removeButton.onclick = () =>
+    //         removeImage(removeButton);
+    //     ;
+    //     removeButton.type = "button";
+    //     removeButton.innerHTML = "Remove";
+
+
+    //     buttonGroup.appendChild(addButton);
+    //     buttonGroup.appendChild(document.createTextNode(' '));
+    //     buttonGroup.appendChild(removeButton);
+
+    //     newInputGroup.appendChild(buttonGroup);
+    //     document.getElementById("fileInputGroup").appendChild(newInputGroup);
+    //     images++;
+    // }
+
+    // function removeImage(element) {
+    //     if (images > 1) {
+    //         element.closest(".input-group").remove();
+    //         images--;
+    //     }
+
+    // }
+
+    // function checking() {
+    //     let checkboxes = document.querySelectorAll('[id=checkbox-tag]');
+    //     // let checked = false;
+    //     // console.log("hi");
+    //     // for (let i = 0; i < elements.length; i++) {
+    //     //     if (elements[i].checked) {
+    //     //         checked = true;
+    //     //     }
+    //     // }
+    //     // return checked;
+    //     let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+    //     if (!checkedOne) {
+    //         event.preventDefault();
+    //         return checkedOne;
+    //     }
+    //     return checkedOne;
+    // }
+    </script>
+</main>

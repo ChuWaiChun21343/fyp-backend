@@ -1,0 +1,30 @@
+const { query } = require('../src/connect');
+var fs = require('fs');
+const { url } = require('inspector');
+
+getPostImage = async () => {
+    const sql = "Select url from post_image";
+    const images = await query(sql, []);
+    let imageSet = new Set();
+    for (var i = 0; i < images.length; i++) {
+        imageSet.add(images[i]['url']);
+    }
+    console.log(imageSet);
+    const dir = await fs.promises.opendir("/Users/pikachu/NodeJs/fyp/web-server/file/post-image");
+    let number = 0;
+    for await (const dirent of dir) {
+        if (imageSet.has(dirent.name)) {
+            number++;
+            console.log(dirent.name)
+        } else {
+            fs.unlinkSync("/Users/pikachu/NodeJs/fyp/web-server/file/post-image/" + dirent.name);
+        }
+
+    }
+
+
+};
+
+
+getPostImage();
+// fs.unlinkSync(path);

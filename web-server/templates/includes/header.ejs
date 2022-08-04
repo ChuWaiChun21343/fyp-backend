@@ -1,0 +1,40 @@
+<div class="header-bar ">
+    <nav class="navbar navbar-light">
+        <div class="container-fluid">
+            <div class="header-bar-left-area">
+                <span class="header-bar-title">
+                    <% switch (path) { case '/home' : %>
+                        Home
+                        <% break; case '/user' : %>
+                            User
+                            <% break; case 'subAdmin' : %>
+                                Sub Admin
+                                <% break; } %>
+                </span>
+            </div>
+            <div class="header-bar-right-area d-flex justify-content-end me-3">
+                <!-- <form class="me-2">
+                    <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+                </form> -->
+                <div class="d-flex  ms-3">
+                    <div class="flex-shrink-0 dropstart">
+                        <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <!-- <ul class="dropdown-menu text-small shadow dropdown-menu-end dropdown-menu-lg-start "
+                            aria-labelledby="dropdownUser2">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

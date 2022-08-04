@@ -1,0 +1,38 @@
+const { query } = require('../src/connect');
+var fs = require('fs');
+async function addNewPost() {
+    for (var i = 0; i < 200; i++) {
+        const userID = Math.floor(Math.random() * 25) + 1;
+        const names = ['Shoes', 'Flower', 'Clothers', 'Something', 'Headphone', 'Chair'];
+        const contents = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Posuere elementum viverra imperdiet vivamus elit facilisis. Mauris nunc felis placerat.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat non non sed vehicula aliquam amet. In arcu fames a lectus lectus maecenas et maecenas sit. Laoreet sed elit vitae ante tellus et elit egestas.'];
+        const randomNamesNumber = Math.floor(Math.random() * names.length);
+        const randomName = names[randomNamesNumber];
+
+        const randomType = Math.floor(Math.random() * 2) + 1;
+        const randomContentNumber = Math.floor(Math.random() * contents.length);
+        const randomContent = contents[randomContentNumber];
+        const sql = "INSERT INTO post (name,content,type_id,created_by,others,status) Values (?,?,?,?,?,?)";
+        const values = [randomName, randomContent, randomType, userID, "", 1];
+        const result = await query(sql, values);
+        const postID = result.insertId;
+        var files = fs.readdirSync('/Users/pikachu/fyp/image/images');
+        const insertNumber =  Math.floor(Math.random() * 3) + 1;
+        for(var y = 0 ; y < insertNumber; y++){
+            const randomFilesNumber = Math.floor(Math.random() * files.length);
+            const imageSQL = "INSERT INTO post_image (url,post_id,status) Values (?,?,?)";
+            const imageValues = [files[randomFilesNumber], postID, 1];
+            await query(imageSQL, imageValues);
+        }
+        const insertTagNumber =  Math.floor(Math.random() * 3) + 1;
+        for (var y = 0; y < insertTagNumber; y++) {
+            const tagSQL = "INSERT INTO post_saving_tag (post_id,tag_id,status) Values (?,?,?)";
+            const tagValues = [postID, y+1, 1];
+            await query(tagSQL, tagValues);
+        }
+    }
+    console.log('done');
+}
+
+addNewPost();
+

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link type="text/css" href="./boostrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="./css/common.css" rel="stylesheet">
+
+    <link href="./fontawesome/css/all.css" rel="stylesheet">
+    <script src="./boostrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
+    <link href="./google-font/Mulish/static/Mulish-Regular.ttf" rel="stylesheet">
+</head>
+<main>
+
+    <body class="bg-light">
+        <div class="container-fluid d-flex h-100 w-100">
+            <%- include('../../includes/sidebar.ejs') %>
+                <div class="container-fluid h-100 w-100 d-flex flex-column">
+                    <%- include('../../includes/header.ejs') %>
+                        <div class="container-fluid content-body">
+                            <div class="border-container h-100 w-100">
+                                <div class="border-container-header container-fluid d-flex">
+                                    <div class="p-2">
+                                        <span class="border-container-header-word ">All <%=pageTitle%></span>
+                                    </div>
+                                    <div class="ms-auto p-2 d-flex">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas ms-3 fa-filter fs-6 nav-link-icon"></i>
+                                        </div>
+                                        <a href="#" onclick="return false" class="nav-link d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-3 fs-6 nav-link-word" data-bs-toggle="modal"
+                                                    data-bs-target="#filterModal">Filter</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="padding-left: 2%;"><button
+                                                        class="btn th-sort-button"><span>Name</span>
+                                                        <!-- <div class="th-sort-div">
+                                                            <i class="fas fa-sort-up th-sort-div-icon "></i>
+                                                            <i class="fas fa-sort-down th-sort-div-icon "></i>
+                                                        </div> -->
+                                                    </button>
+                                                </th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Create Date</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% users.forEach(function (user,i) { %>
+                                                <tr style="height: 75px;">
+                                                    <td class="align-middle" style="padding-left:2% ;width: 20%;">
+                                                        <%=user.name%>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 15%;">
+                                                        <%= user.phone %>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 25%;">
+                                                        <%= user.email %>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 12%;">
+                                                        <div>
+                                                            <div>
+                                                                <%= user.create_date %>
+                                                            </div>
+                                                            <div
+                                                                style="color: #C5C7CD; font-size: 14px; margin-top: 5px;">
+                                                                <%= user.create_time %>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle" style="width: 10%;">
+                                                        <% switch (user.status) { case 2 : %>
+                                                            <div class="status-button-shape"
+                                                                style="background: #F12B2C;">
+                                                                Suspend
+                                                            </div>
+                                                            <% break; case 1 : %>
+                                                                <div class="status-button-shape"
+                                                                    style="background: #29CC97;">
+                                                                    Available
+                                                                </div>
+                                                                <% break; case 0 : %>
+                                                                    <div class="status-button-shape"
+                                                                        style="background: #FEC400;">
+                                                                        Pending
+                                                                    </div>
+                                                                    <% break; } %>
+                                                    </td>
+
+                                                    <td class="align-middle" style="width: 8%;">
+                                                        <div class="dropdown">
+                                                            <a role="button" id="dropdownMenuLink"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                <i class="fas ms-3 fa-ellipsis-v fs-6 nav-link-icon"
+                                                                    onclick="showDropDown(`<%=user.id%>`)"></i>
+                                                            </a>
+                                                            <ul id="dropdownMenu<%=user.id%>" class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <form action="/user/edit_user" method="GET">
+                                                                    <li><a type="submit" class="dropdown-item"
+                                                                            href="/user/edit_user?id=<%=user.id%>">Update</a>
+                                                                    </li>
+                                                                </form>
+                                                                <!-- <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Suspend</a>
+                                                                </li> -->
+                                                            </ul>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-bottom">
+                                        <div class="page-bottom-infomration">
+                                            <span> showing item <%=minPage%>-<%=maxPage%> of <%=totalNumber%></span>
+                                        </div>
+                                        <div class="page-bottom-selector">
+                                            <form action="/user" method="POST" class="form-inline">
+                                                <div class="input-group">
+                                                    <button id="previous-page-button" class="btn shadow-none"
+                                                        name="changePage[arrow]" type="submit" value="-1">
+                                                        <span class="fas fa-chevron-left"></span>
+                                                    </button>
+                                                    <!-- <%var start=5 <=totalNumber/25 - currentUserPage ? currentUserPage-1
+                                                        : totalNumber/25 - 5; %>
+                                                        <%var end=start + 5 ; %> -->
+                                                    <% for(var i=0 ; i < totalNumber/25 ; i++) { %>
+                                                        <div style="margin-left: 5px; margin-right: 5px;">
+                                                            <button class="btn btn-outline-secondary"
+                                                                name="changePage[button]" type="submit"
+                                                                value="<%= i+1 %>">
+                                                                <%= i + 1%>
+                                                            </button>
+                                                        </div>
+                                                        <% } %>
+                                                            <div class="page-bottom-selector-arrow-button">
+                                                                <button id="next-page-button" class="btn shadow-none"
+                                                                    name="changePage[arrow]" type="submit" value="1">
+                                                                    <span class="fas fa-chevron-right"></span>
+                                                                </button>
+                                                            </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+                <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-fullscreen-sm-down">
+                        <form action="/user" method="POST">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Selection</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <p class="h5">Filter Type</p>
+                                        <div class="container-fluid d-flex mb-4">
+                                            <div class="me-3" style="width: 20%;">
+                                                <span>User Type:</span>
+                                            </div>
+                                            <div>
+                                                <div class="form-check me-3">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[userTypes]" value="1" <%=userTypeChecks[0]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Register with Email
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[userTypes]" value="2" <%=userTypeChecks[1]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Register with Google
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[userTypes]" value="3" <%=userTypeChecks[2]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Register with Facebook
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="container-fluid d-flex mb-4">
+                                            <div class="me-3" style="width: 20%;">
+                                                <span>Status Type:</span>
+                                            </div>
+                                            <div style="display: flex;">
+                                                <div class="form-check me-2">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[statusTypes]" value="1" <%=statusTypeChecks[1]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Available
+                                                    </label>
+                                                </div>
+                                                <div class="form-check me-2">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[statusTypes]" value="2" <%=statusTypeChecks[2]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Suspend
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="user[statusTypes]" value="0" <%=statusTypeChecks[0]
+                                                        ? "checked" : "" %>>
+                                                    <label class="form-check-label">
+                                                        Pending
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="h5">Sorting Type</p>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[sortingType]"
+                                            id="noneRadio" value="0" <%=sortType=='0' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="noneRadio">
+                                            None
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[sortingType]"
+                                            id="nameRadio" value="1" <%=sortType=='1' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="nameRadio">
+                                            Name
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[sortingType]"
+                                            id="typeRadio" value="2" <%=sortType=='2' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="typeRadio">
+                                            Type
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[sortingType]"
+                                            id="cDateRadio" value="3" <%=sortType=='3' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="cDateRadio">
+                                            Create Date
+                                        </label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="h5">Sorting Order</p>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[orderBy]" id="ascRadio"
+                                            value="ASC" <%=orderType=='ASC' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="ascRadio">
+                                            Ascending Order
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="user[orderBy]" id="descRadio"
+                                            value="DESC" <%=orderType=='DESC' ? "checked" : "" %>>
+                                        <label class="form-check-label" for="descRadio">
+                                            Descending Order
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </body>
+</main>
+
+<script>
+
+    function closeCurrentShowedDropDown() {
+        let closedDropDownID = -1;
+        var dropDownMenus = document.querySelectorAll(".dropdown-menu");
+        [].forEach.call(dropDownMenus, function (dropDown) {
+            if (dropDown.classList.contains("dropdown-menu-show")) {
+                dropDown.classList.remove("dropdown-menu-show");
+                closedDropDownID = 1;
+                return;
+            }
+        });
+        return closedDropDownID;
+    }
+    function showDropDown(id) {
+        const closedDropDownID = closeCurrentShowedDropDown();
+        console.log(closedDropDownID);
+        if (closedDropDownID != 1)
+            document.getElementById("dropdownMenu" + id).classList.toggle("dropdown-menu-show");
+    }
+
+    function arrowSelector() {
+        const totalNumber = '<%-totalNumber %>';
+        const minPage = '<%-minPage %>';
+        const maxPage = '<%-maxPage %>';
+        console.log(minPage);
+        if (minPage == 1) {
+            document.getElementById("previous-page-button").disabled = true;;
+        }
+        if (maxPage == totalNumber) {
+            document.getElementById("next-page-button").disabled = true;
+        }
+        if (minPage != 1 && maxPage != totalNumber) {
+            document.getElementById("previous-page-button").disabled = false;
+            document.getElementById("next-page-button").disabled = false;
+        }
+    }
+
+    function pageButton() {
+        const currentUserPage = '<%-currentUserPage%>';
+        var buttons = document.querySelectorAll(".btn.btn-outline-secondary");
+        [].forEach.call(buttons, function (button) {
+            if (currentUserPage == button.value) {
+                button.classList.add("page-bottom-selector-page-button-selected");
+            } else {
+                if (button.classList.contains("page-bottom-selector-page-button-selected")) {
+                    button.classList.remove("page-bottom-selector-page-button-selected");
+                }
+            }
+        });
+    }
+
+    window.addEventListener("click", function (event) {
+        if (!event.target.matches('.fas.ms-3.fa-ellipsis-v.fs-6.nav-link-icon')) {
+            //close all dropDown
+            closeCurrentShowedDropDown();
+        }
+    });
+
+    var filterModal = document.getElementById('filterModal')
+
+    filterModal.addEventListener('show.bs.modal', function (event) {
+    })
+
+    window.onload = function () {
+        arrowSelector();
+        pageButton();
+    }
+
+</script>
+
+</html>

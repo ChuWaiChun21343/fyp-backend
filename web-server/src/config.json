@@ -1,0 +1,14 @@
+{
+    "url": "http:/127.0.0.1:8080/",
+    "imageURL": "http://127.0.0.1:8080/file",
+    "firebaseConfig" : {
+        "apiKey": "",
+        "authDomain": "",
+        "projectId": "",
+        "storageBucket": "",
+        "messagingSenderId": "",
+        "appId": "",
+        "measurementId": ""
+      }
+}
+
